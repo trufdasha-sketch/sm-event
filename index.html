@@ -1,0 +1,733 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11130f">
+  <title>Creative Casino</title>
+
+  <style>
+    :root {
+      --bg: #11130f;
+      --panel: #1c2019;
+      --panel2: #252b20;
+      --line: #373d30;
+      --lime: #c8f169;
+      --text: #f4f5ed;
+      --muted: #a0a696;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 560px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 22px 20px 35px;
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 55px;
+    }
+
+    .logo {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+
+    .logo span { color: var(--lime); }
+
+    .shop-button {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 13px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    .screen { display: none; }
+    .screen.active {
+      display: block;
+      animation: appear .35s ease;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      color: var(--lime);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: clamp(34px, 9vw, 52px);
+      line-height: .98;
+      letter-spacing: -2px;
+      margin: 14px 0;
+    }
+
+    h2 {
+      font-size: 25px;
+      margin: 10px 0;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .teams {
+      display: grid;
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    .team-card {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 22px;
+      text-align: left;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: .2s;
+    }
+
+    .team-card:hover {
+      border-color: var(--lime);
+      background: var(--panel2);
+      transform: translateY(-2px);
+    }
+
+    .team-card strong {
+      font-size: 18px;
+    }
+
+    .team-card small {
+      display: block;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .team-number {
+      color: var(--lime);
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .game-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 22px;
+    }
+
+    .animation-area {
+      height: 155px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    .playing-card {
+      width: 65px;
+      height: 92px;
+      background: #f1f0e8;
+      color: #171a13;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+      font-weight: bold;
+      box-shadow: 0 8px 20px #0005;
+      transform: rotate(-8deg);
+    }
+
+    .playing-card:nth-child(2) {
+      background: var(--lime);
+      transform: rotate(3deg);
+    }
+
+    .playing-card:nth-child(3) {
+      transform: rotate(12deg);
+    }
+
+    .dice {
+      width: 52px;
+      height: 52px;
+      background: var(--lime);
+      color: #171a13;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .shuffling .playing-card {
+      animation: shuffle .3s infinite alternate;
+    }
+
+    .shuffling .playing-card:nth-child(2) {
+      animation-delay: .1s;
+    }
+
+    .shuffling .dice {
+      animation: dice .25s infinite alternate;
+    }
+
+    @keyframes shuffle {
+      to { transform: translateY(-17px) rotate(15deg); }
+    }
+
+    @keyframes dice {
+      to { transform: rotate(25deg) scale(.9); }
+    }
+
+    .primary {
+      background: var(--lime);
+      color: #171a13;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 20px;
+      width: 100%;
+      font-weight: 800;
+      margin-top: 15px;
+    }
+
+    .primary:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 13px 18px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .brief {
+      display: none;
+      border-top: 1px solid var(--line);
+      margin-top: 20px;
+      padding-top: 20px;
+    }
+
+    .brief.visible { display: block; }
+
+    .brief-text {
+      background: var(--panel2);
+      border-radius: 13px;
+      padding: 18px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .back-button {
+      color: var(--muted);
+      background: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    /* SHOP DRAWER */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: #000a;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s;
+    }
+
+    .overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      z-index: 11;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: min(390px, 90vw);
+      background: #191c16;
+      border-left: 1px solid var(--line);
+      padding: 25px 22px;
+      transform: translateX(105%);
+      transition: .3s;
+      overflow-y: auto;
+    }
+
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .drawer-header h2 { margin: 0; }
+
+    .close {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 9px;
+      width: 36px;
+      height: 36px;
+      font-size: 22px;
+    }
+
+    .balance {
+      background: var(--panel2);
+      border: 1px solid #485438;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 28px;
+    }
+
+    .balance-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .balance-value {
+      color: var(--lime);
+      font-size: 34px;
+      font-weight: 900;
+      margin-top: 7px;
+    }
+
+    .balance-value small {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: normal;
+    }
+
+    .catalog-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .product {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .product-description {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .price {
+      color: var(--lime);
+      background: var(--panel2);
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .drawer-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 22px;
+    }
+
+    .vote-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .vote-option {
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 17px;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .vote-option.selected {
+      border-color: var(--lime);
+      background: var(--panel2);
+    }
+
+    .status {
+      color: var(--lime);
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 380px) {
+      .app { padding: 18px 15px; }
+      header { margin-bottom: 40px; }
+      .animation-area { gap: 7px; }
+      .playing-card { width: 54px; height: 78px; }
+      .dice { width: 43px; height: 43px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <header>
+    <div class="logo">CREATIVE <span>CASINO</span></div>
+    <button class="shop-button" id="shopOpen">▣ Магазин</button>
+  </header>
+
+  <!-- SCREEN 1: TEAM SELECTION -->
+
+  <section class="screen active" id="teamScreen">
+    <div class="eyebrow">Welcome to the game</div>
+    <h1>Ставки<br>сделаны.</h1>
+    <p class="description">
+      Выберите свою команду, чтобы получить индивидуальный бриф.
+      Игра начинается.
+    </p>
+
+    <div class="teams">
+      <button class="team-card" onclick="selectTeam(1)">
+        <div>
+          <strong>Команда 01</strong>
+          <small>Первый игровой стол</small>
+        </div>
+        <span class="team-number">01</span>
+      </button>
+
+      <button class="team-card" onclick="selectTeam(2)">
+        <div>
+          <strong>Команда 02</strong>
+          <small>Второй игровой стол</small>
+        </div>
+        <span class="team-number">02</span>
+      </button>
+
+      <button class="team-card" onclick="selectTeam(3)">
+        <div>
+          <strong>Команда 03</strong>
+          <small>Третий игровой стол</small>
+        </div>
+        <span class="team-number">03</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: BRIEF -->
+
+  <section class="screen" id="briefScreen">
+    <button class="back-button" onclick="showScreen('teamScreen')">
+      ← Выбрать другую команду
+    </button>
+
+    <div class="eyebrow" id="teamLabel">Команда 01</div>
+    <h1>Ваш<br>бриф.</h1>
+    <p class="description">
+      Время открыть карты. Нажмите на кнопку, чтобы получить задание.
+    </p>
+
+    <div class="game-card">
+      <div class="animation-area" id="animationArea">
+        <div class="playing-card">?</div>
+        <div class="playing-card">?</div>
+        <div class="playing-card">?</div>
+        <div class="dice">?</div>
+      </div>
+
+      <button class="primary" id="dealButton" onclick="dealBrief()">
+        Открыть бриф
+      </button>
+
+      <div class="brief" id="brief">
+        <div class="eyebrow">Your challenge</div>
+        <h2 id="briefTitle">Задание</h2>
+        <div class="brief-text" id="briefText"></div>
+      </div>
+    </div>
+
+    <button class="secondary" onclick="showScreen('voteScreen')">
+      Перейти к голосованию →
+    </button>
+  </section>
+
+  <!-- SCREEN 3: VOTING -->
+
+  <section class="screen" id="voteScreen">
+    <button class="back-button" onclick="showScreen('briefScreen')">
+      ← Вернуться к брифу
+    </button>
+
+    <div class="eyebrow">Final round</div>
+    <h1>Сделайте<br>свою ставку.</h1>
+    <p class="description">
+      Какая команда представила самое сильное решение?
+      Голосование анонимное.
+    </p>
+
+    <div class="vote-list">
+      <button class="vote-option" onclick="selectVote(1)">Команда 01</button>
+      <button class="vote-option" onclick="selectVote(2)">Команда 02</button>
+      <button class="vote-option" onclick="selectVote(3)">Команда 03</button>
+    </div>
+
+    <button class="primary" onclick="submitVote()">Отдать голос</button>
+    <div class="status" id="voteStatus"></div>
+  </section>
+
+</div>
+
+<!-- SHOP -->
+
+<div class="overlay" id="overlay" onclick="closeShop()"></div>
+
+<aside class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2>Магазин</h2>
+    <button class="close" onclick="closeShop()">×</button>
+  </div>
+
+  <div class="balance">
+    <div class="balance-label">Ваш баланс</div>
+    <div class="balance-value">100 <small>монет</small></div>
+  </div>
+
+  <div class="catalog-label">Ассортимент</div>
+
+  <div class="product">
+    <div>
+      <div class="product-name">ИИ-концепция (1)</div>
+      <div class="product-description">Одна креативная концепция</div>
+    </div>
+    <div class="price">100 монет</div>
+  </div>
+
+  <div class="product">
+    <div>
+      <div class="product-name">ИИ-слоганы (5)</div>
+      <div class="product-description">Пять вариантов слогана</div>
+    </div>
+    <div class="price">30 монет</div>
+  </div>
+
+  <div class="product">
+    <div>
+      <div class="product-name">ИИ-идея (1)</div>
+      <div class="product-description">Одна идея для брифа</div>
+    </div>
+    <div class="price">50 монет</div>
+  </div>
+
+  <div class="product">
+    <div>
+      <div class="product-name">ИИ-инсайты (5)</div>
+      <div class="product-description">Пять возможных инсайтов</div>
+    </div>
+    <div class="price">30 монет</div>
+  </div>
+
+  <div class="drawer-note">
+    Магазин работает в демонстрационном режиме.
+    Покупки и списание монет не предусмотрены.
+  </div>
+</aside>
+
+<script>
+  // =====================================
+  // БРИФЫ: ЗАМЕНИТЕ ТЕКСТ НА СВОЙ
+  // =====================================
+
+  const briefs = {
+    1: {
+      title: "Бриф команды 01",
+      text: "Здесь будет текст брифа для первой команды."
+    },
+
+    2: {
+      title: "Бриф команды 02",
+      text: "Здесь будет текст брифа для второй команды."
+    },
+
+    3: {
+      title: "Бриф команды 03",
+      text: "Здесь будет текст брифа для третьей команды."
+    }
+  };
+
+  let currentTeam = null;
+  let selectedVote = null;
+  let hasVoted = false;
+
+  // Переключение экранов
+
+  function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId).classList.add("active");
+
+    document.getElementById("shopOpen").style.display =
+      screenId === "briefScreen" ? "block" : "none";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Выбор команды
+
+  function selectTeam(team) {
+    currentTeam = team;
+
+    document.getElementById("teamLabel").textContent =
+      "Команда " + String(team).padStart(2, "0");
+
+    document.getElementById("brief").classList.remove("visible");
+    document.getElementById("dealButton").disabled = false;
+    document.getElementById("dealButton").textContent = "Открыть бриф";
+
+    showScreen("briefScreen");
+  }
+
+  // Анимация раздачи и открытие брифа
+
+  function dealBrief() {
+    const area = document.getElementById("animationArea");
+    const button = document.getElementById("dealButton");
+
+    if (!currentTeam || button.disabled) return;
+
+    button.disabled = true;
+    button.textContent = "Перемешиваем...";
+    area.classList.add("shuffling");
+
+    setTimeout(() => {
+      area.classList.remove("shuffling");
+
+      const briefData = briefs[currentTeam];
+
+      document.getElementById("briefTitle").textContent =
+        briefData.title;
+
+      document.getElementById("briefText").textContent =
+        briefData.text;
+
+      document.getElementById("brief").classList.add("visible");
+
+      button.textContent = "Бриф открыт";
+      button.disabled = false;
+    }, 1300);
+  }
+
+  // Магазин
+
+  function openShop() {
+    document.getElementById("drawer").classList.add("open");
+    document.getElementById("overlay").classList.add("open");
+  }
+
+  function closeShop() {
+    document.getElementById("drawer").classList.remove("open");
+    document.getElementById("overlay").classList.remove("open");
+  }
+
+  document.getElementById("shopOpen").addEventListener("click", openShop);
+
+  // Голосование (демонстрационное, в одном браузере)
+
+  function selectVote(team) {
+    if (hasVoted) return;
+
+    selectedVote = team;
+
+    document.querySelectorAll(".vote-option").forEach((button, index) => {
+      button.classList.toggle("selected", index + 1 === team);
+    });
+
+    document.getElementById("voteStatus").textContent =
+      "Выбрана команда " + String(team).padStart(2, "0");
+  }
+
+  function submitVote() {
+    const status = document.getElementById("voteStatus");
+
+    if (hasVoted) return;
+
+    if (!selectedVote) {
+      status.textContent = "Сначала выберите команду.";
+      return;
+    }
+
+    hasVoted = true;
+
+    document.querySelectorAll(".vote-option").forEach(button => {
+      button.disabled = true;
+    });
+
+    status.textContent = "Ваш голос принят. Спасибо за участие.";
+  }
+</script>
+
+</body>
+</html>
