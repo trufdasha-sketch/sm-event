@@ -5,18 +5,140 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#11130f">
-  <title>Creative Casino</title>
+  <title>Creative LAB</title>
+body {
+  background: #fff7fa;
+  color: #29212a;
+}
 
+.app {
+  background:
+    radial-gradient(ellipse at 100% 0%, #ffe0eb 0%, transparent 38%),
+    #fff7fa;
+}
+
+.logo {
+  color: #29212a;
+}
+
+.team-card,
+.game-card,
+.vote-option {
+  background: #fff;
+  border: 1px solid #f2cbd9;
+  box-shadow: 0 5px 20px #d88aa51a;
+}
+
+.team-card:hover,
+.team-card.selected,
+.vote-option.selected {
+  background: #fff0f5;
+  border-color: #ec4b91;
+}
+
+.team-number,
+.eyebrow,
+.status {
+  color: #ec4b91;
+}
+
+.primary {
+  background: linear-gradient(110deg, #f05b9c, #dc347e);
+  color: white;
+  box-shadow: 0 5px 15px #e94a8c30;
+}
+
+.primary:hover {
+  filter: brightness(1.05);
+}
+
+.secondary {
+  color: #d82e79;
+  border-color: #edb4ca;
+}
+
+.playing-card {
+  background: white;
+  color: #d82e79;
+  border: 1px solid #f2cbd9;
+}
+
+.playing-card:nth-child(2) {
+  background: #ffb6d2;
+  color: #fff;
+}
+
+.dice {
+  background: #ec4b91;
+  color: white;
+}
+
+.drawer {
+  background: #fff9fb;
+  border-left: 1px solid #f2cbd9;
+}
+
+.drawer-header h2 {
+  color: #29212a;
+}
+
+.close {
+  color: #29212a;
+  border-color: #f2cbd9;
+}
+
+.balance {
+  background: linear-gradient(135deg, #fff0c5, #ffe3a0);
+  border: 1px solid #edc66e;
+}
+
+.balance-label {
+  color: #85632b;
+}
+
+.balance-value {
+  color: #a66b12;
+}
+
+.catalog-label {
+  color: #897d88;
+}
+
+.product {
+  border-color: #f2cbd9;
+}
+
+.product-name {
+  color: #29212a;
+}
+
+.price {
+  background: #fff0c5;
+  color: #98600c;
+  font-weight: 800;
+}
+
+.brief-text {
+  background: #fff0f5;
+  color: #29212a;
+}
+
+.overlay {
+  background: #33202b70;
+}
   <style>
-    :root {
-      --bg: #11130f;
-      --panel: #1c2019;
-      --panel2: #252b20;
-      --line: #373d30;
-      --lime: #c8f169;
-      --text: #f4f5ed;
-      --muted: #a0a696;
-    }
+:root {
+  --bg: #fff7fa;
+  --panel: #ffffff;
+  --panel2: #fff0f5;
+  --line: #f2cbd9;
+  --lime: #ec4b91;
+  --text: #29212a;
+  --muted: #897d88;
+  --pink-light: #ffb6d2;
+  --pink-dark: #d82e79;
+  --gold: #f5b82e;
+}
 
     * { box-sizing: border-box; }
 
