@@ -5,7 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#11130f">
- <title>Creative LAB</title>
+ <title>Future LAB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#fff7fa">
 
 <style>
@@ -152,7 +155,8 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: Arial, sans-serif;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
       min-height: 100vh;
     }
 
@@ -724,6 +728,10 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+  h1, h2, h3, .logo {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
   </style>
 </head>
 
@@ -731,43 +739,42 @@ body {
 <div class="app">
 
   <header>
-    <div class="logo">CREATIVE <span>CASINO</span></div>
-    <button class="shop-button" id="shopOpen">▣ Магазин</button>
+    <div class="logo">FUTURE <span>LAB</span></div>
+    <button class="shop-button" id="shopOpen"> Магазин</button>
   </header>
 
   <!-- SCREEN 1: TEAM SELECTION -->
 
   <section class="screen active" id="teamScreen">
-    <div class="eyebrow">Welcome to the game</div>
-    <h1>Ставки<br>сделаны.</h1>
-    <p class="description">
-      Выберите свою команду, чтобы получить индивидуальный бриф.
-      Игра начинается.
-    </p>
+   <div class="eyebrow">Качаем естественный интеллект</div>
+<h1>Создавать<br>будущее</h1>
+<p class="description">
+  Выберите свою команду, чтобы получить индивидуальный бриф
+</p>
 
     <div class="teams">
       <button class="team-card" onclick="selectTeam(1)">
         <div>
-          <strong>Команда 01</strong>
-          <small>Первый игровой стол</small>
+          <strong>Команда 1</strong>
+          <small>вы наш номер 1</small>
         </div>
-        <span class="team-number">01</span>
+        <span class="team-number">1</span>
       </button>
 
       <button class="team-card" onclick="selectTeam(2)">
         <div>
-          <strong>Команда 02</strong>
-          <small>Второй игровой стол</small>
+          <strong>Команда 2</strong>
+          <small>это второоой! 52!</small>
         </div>
-        <span class="team-number">02</span>
+        <span class="team-number">2</span>
       </button>
 
       <button class="team-card" onclick="selectTeam(3)">
         <div>
-          <strong>Команда 03</strong>
-          <small>Третий игровой стол</small>
+          <strong>Команда 3</strong>
+          <small>три три три и будет победа!</small>
         </div>
-        <span class="team-number">03</span>
+        <span class="team-number">3</span>
       </button>
     </div>
   </section>
