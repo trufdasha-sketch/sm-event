@@ -126,6 +126,52 @@ body {
 .overlay {
   background: #33202b70;
 }
+  .balance-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coin-stack {
+  position: relative;
+  width: 105px;
+  height: 83px;
+  margin-right: 5px;
+}
+
+.coin {
+  position: absolute;
+  width: 57px;
+  height: 17px;
+  border-radius: 50%;
+  background: linear-gradient(
+    180deg,
+    #fff1a6 0%,
+    #f7c94e 35%,
+    #d99118 75%,
+    #ffdf78 100%
+  );
+  border: 2px solid #d99a20;
+  box-shadow: 0 3px 0 #b87913;
+}
+
+.coin::after {
+  content: "C";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #a96a0c;
+  font-size: 10px;
+  font-weight: 900;
+  text-shadow: 0 1px #fff0a8;
+}
+
+.coin-1 { left: 4px; top: 53px; }
+.coin-2 { left: 4px; top: 42px; }
+.coin-3 { left: 4px; top: 31px; }
+.coin-4 { left: 25px; top: 20px; }
+.coin-5 { left: 25px; top: 9px; }
   <style>
 :root {
   --bg: #fff7fa;
@@ -671,10 +717,21 @@ body {
     <button class="close" onclick="closeShop()">×</button>
   </div>
 
-  <div class="balance">
-    <div class="balance-label">Ваш баланс</div>
+ <div class="balance">
+  <div class="balance-label">Ваш баланс</div>
+
+  <div class="balance-content">
     <div class="balance-value">100 <small>монет</small></div>
+
+    <div class="coin-stack" aria-label="Стопка золотых монет">
+      <div class="coin coin-1"></div>
+      <div class="coin coin-2"></div>
+      <div class="coin coin-3"></div>
+      <div class="coin coin-4"></div>
+      <div class="coin coin-5"></div>
+    </div>
   </div>
+</div>
 
   <div class="catalog-label">Ассортимент</div>
 
