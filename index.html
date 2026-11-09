@@ -984,6 +984,73 @@ Cервис спонтанных путешествий для зумеров
   let currentTeam = null;
   let selectedVote = null;
   let hasVoted = false;
+  let voteRequestInProgress = false;
+
+  const API_URL = "https://d1future-lab-votes.trufdasha.workers.dev";
+
+  function getDeviceId() {
+    let deviceId = localStorage.getItem("futureLabDeviceId");
+
+    if (!deviceId) {
+      if (window.crypto && typeof crypto.randomUUID === "function") {
+        deviceId = crypto.randomUUID();
+      } else {
+        const bytes = new Uint8Array(24);
+        crypto.getRandomValues(bytes);
+        deviceId = Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+      }
+
+      localStorage.setItem("futureLabDeviceId", deviceId);
+    }
+
+    return deviceId;
+  }
+
+  const deviceId = getDeviceId();
+
+  function setVotingLocked(locked) {
+    document.querySelectorAll(".vote-option").forEach(button => {
+      button.disabled = locked;
+    });
+
+    const submitButton = document.querySelector('#voteScreen .primary');
+    submitButton.disabled = locked || voteRequestInProgress;
+  }
+
+  async function refreshVoteStatus() {
+    const status = document.getElementById("voteStatus");
+    const submitButton = document.querySelector('#voteScreen .primary');
+
+    status.textContent = "Проверяем статус голосования...";
+    setVotingLocked(true);
+
+    try {
+      const response = await fetch(
+        `${API_URL}/status?deviceId=${encodeURIComponent(deviceId)}`,
+        { cache: "no-store" }
+      );
+
+      if (!response.ok) {
+        throw new Error("Не удалось проверить статус голосования");
+      }
+
+      const data = await response.json();
+      hasVoted = Boolean(data.hasVoted);
+
+      if (hasVoted) {
+        status.textContent = "С этого браузера уже голосовали в текущем раунде.";
+        setVotingLocked(true);
+      } else {
+        status.textContent = "";
+        setVotingLocked(false);
+      }
+    } catch (error) {
+      hasVoted = false;
+      status.textContent = "Не удалось связаться с сервером. Проверьте подключение и обновите страницу.";
+      setVotingLocked(true);
+      submitButton.disabled = true;
+    }
+  }
 
   // Переключение экранов
 
@@ -993,6 +1060,10 @@ Cервис спонтанных путешествий для зумеров
     });
 
     document.getElementById(screenId).classList.add("active");
+
+    if (screenId === "voteScreen") {
+      refreshVoteStatus();
+    }
 
     document.getElementById("shopOpen").style.display =
       screenId === "briefScreen" ? "block" : "none";
@@ -1059,10 +1130,10 @@ Cервис спонтанных путешествий для зумеров
 
   document.getElementById("shopOpen").addEventListener("click", openShop);
 
-  // Голосование (демонстрационное, в одном браузере)
+  // Голосование через Cloudflare Worker
 
   function selectVote(team) {
-    if (hasVoted) return;
+    if (hasVoted || voteRequestInProgress) return;
 
     selectedVote = team;
 
@@ -1074,24 +1145,66 @@ Cервис спонтанных путешествий для зумеров
       "Выбрана команда " + String(team).padStart(2, "0");
   }
 
-  function submitVote() {
+  async function submitVote() {
     const status = document.getElementById("voteStatus");
+    const submitButton = document.querySelector('#voteScreen .primary');
 
-    if (hasVoted) return;
+    if (hasVoted || voteRequestInProgress) return;
 
     if (!selectedVote) {
       status.textContent = "Сначала выберите команду.";
       return;
     }
 
-    hasVoted = true;
-
+    voteRequestInProgress = true;
+    submitButton.disabled = true;
     document.querySelectorAll(".vote-option").forEach(button => {
       button.disabled = true;
     });
+    status.textContent = "Отправляем голос...";
 
-    status.textContent = "Ваш голос принят. Спасибо за участие.";
+    try {
+      const response = await fetch(`${API_URL}/vote`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          deviceId: deviceId,
+          team: selectedVote
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.status === 409 || data.error === "already_voted") {
+        hasVoted = true;
+        status.textContent = "С этого браузера уже голосовали в текущем раунде.";
+        setVotingLocked(true);
+        return;
+      }
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Не удалось отправить голос");
+      }
+
+      hasVoted = true;
+      status.textContent = "Ваш голос принят. Спасибо за участие.";
+      setVotingLocked(true);
+    } catch (error) {
+      status.textContent = "Не удалось отправить голос. Проверьте подключение и попробуйте снова.";
+      document.querySelectorAll(".vote-option").forEach(button => {
+        button.disabled = false;
+      });
+      submitButton.disabled = false;
+    } finally {
+      voteRequestInProgress = false;
+      if (hasVoted) setVotingLocked(true);
+    }
   }
+
+  // Проверяем статус при загрузке страницы.
+  refreshVoteStatus();
 </script>
 
 </body>
