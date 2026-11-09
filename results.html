@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff7fa">
+  <title>Future LAB — результаты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff7fa;
+      --panel: #fff;
+      --panel2: #fff0f5;
+      --line: #f2cbd9;
+      --pink: #ec4b91;
+      --pink-dark: #d82e79;
+      --text: #29212a;
+      --muted: #897d88;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Nunito Sans", sans-serif;
+      font-weight: 700;
+    }
+    .app {
+      width: 100%;
+      max-width: 620px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 28px 20px 48px;
+      background:
+        radial-gradient(ellipse at 100% 0%, #ffe0eb 0%, transparent 38%),
+        var(--bg);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+    .logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+    .logo span { color: var(--pink); }
+    .back {
+      color: var(--pink-dark);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .eyebrow {
+      color: var(--pink);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: clamp(36px, 9vw, 52px);
+      line-height: .98;
+      letter-spacing: -2px;
+      margin: 12px 0;
+      font-weight: 900;
+    }
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 25px 0 18px;
+    }
+    .pill {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    .result {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 19px;
+      margin-top: 12px;
+      box-shadow: 0 5px 20px #d88aa51a;
+    }
+    .result-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .team-name { font-size: 16px; font-weight: 900; }
+    .numbers { color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .bar {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: var(--panel2);
+    }
+    .fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f05b9c, #dc347e);
+      transition: width .35s ease;
+    }
+    .message {
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 20px;
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+    .admin {
+      margin-top: 42px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .admin h2 { font-size: 20px; margin: 0 0 8px; }
+    .admin-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      font: inherit;
+      background: white;
+      color: var(--text);
+      outline-color: var(--pink);
+    }
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(110deg, #f05b9c, #dc347e);
+      color: white;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .55; cursor: wait; }
+    @media (max-width: 380px) {
+      .app { padding: 20px 15px 38px; }
+      header { margin-bottom: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="logo">FUTURE <span>LAB</span></div>
+      <a class="back" href="./index.html">← На главную</a>
+    </header>
+
+    <div class="eyebrow">Голосование Future LAB</div>
+    <h1>Результаты</h1>
+    <p class="description">Текущий подсчёт голосов по трём командам.</p>
+
+    <div class="meta">
+      <div class="pill" id="round">Раунд —</div>
+      <div class="pill" id="total">Всего голосов —</div>
+    </div>
+
+    <section id="results">
+      <div class="result">
+        <div class="result-head"><div class="team-name">Команда 1</div><div class="numbers">Загрузка…</div></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="result">
+        <div class="result-head"><div class="team-name">Команда 2</div><div class="numbers">Загрузка…</div></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+      <div class="result">
+        <div class="result-head"><div class="team-name">Команда 3</div><div class="numbers">Загрузка…</div></div>
+        <div class="bar"><div class="fill"></div></div>
+      </div>
+    </section>
+    <div class="message" id="message" aria-live="polite">Загружаем результаты…</div>
+
+    <section class="admin">
+      <h2>Управление раундом</h2>
+      <div class="admin-note">
+        Сброс создаёт новый раунд: текущие результаты обнуляются на экране, а предыдущий раунд сохраняется в базе данных.
+      </div>
+      <input id="adminPassword" type="password" placeholder="Пароль администратора" autocomplete="current-password">
+      <button id="resetButton" type="button">Начать новый раунд</button>
+      <div class="message" id="adminMessage" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "https://d1future-lab-votes.trufdasha.workers.dev";
+    const message = document.getElementById("message");
+
+    async function loadResults() {
+      try {
+        const response = await fetch(`${API_URL}/results`, { cache: "no-store" });
+        if (!response.ok) throw new Error("Ошибка загрузки результатов");
+        const data = await response.json();
+
+        document.getElementById("round").textContent = `Раунд ${data.round}`;
+        document.getElementById("total").textContent = `Всего голосов: ${data.total}`;
+
+        [1, 2, 3].forEach((team, index) => {
+          const card = document.querySelectorAll(".result")[index];
+          card.querySelector(".numbers").textContent =
+            `${data.teams[team]} голосов · ${data.percentages[team]}%`;
+          card.querySelector(".fill").style.width = `${data.percentages[team]}%`;
+        });
+
+        message.textContent = "Обновляется автоматически каждые 5 секунд.";
+      } catch (error) {
+        message.textContent = "Не удалось загрузить результаты. Проверьте подключение и обновите страницу.";
+      }
+    }
+
+    document.getElementById("resetButton").addEventListener("click", async () => {
+      const button = document.getElementById("resetButton");
+      const adminMessage = document.getElementById("adminMessage");
+      const password = document.getElementById("adminPassword").value;
+
+      if (!password) {
+        adminMessage.textContent = "Введите пароль администратора.";
+        return;
+      }
+
+      if (!confirm("Начать новый раунд? Голоса текущего раунда перестанут отображаться.")) return;
+
+      button.disabled = true;
+      adminMessage.textContent = "Выполняется сброс…";
+
+      try {
+        const response = await fetch(`${API_URL}/reset`, {
+          method: "POST",
+          headers: {
+            "X-Admin-Password": password
+          }
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          if (response.status === 401) throw new Error("Неверный пароль.");
+          throw new Error(data.error || "Не удалось начать новый раунд.");
+        }
+
+        document.getElementById("adminPassword").value = "";
+        adminMessage.textContent = `Создан раунд ${data.round}.`;
+        await loadResults();
+      } catch (error) {
+        adminMessage.textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    loadResults();
+    setInterval(loadResults, 5000);
+  </script>
+</body>
+</html>
